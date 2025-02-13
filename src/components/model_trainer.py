@@ -36,11 +36,43 @@ class ModelTrainer:
                 'KNN': KNeighborsRegressor(),
                 'Decision Tree': DecisionTreeRegressor(),
                 'Random Forest': RandomForestRegressor(),
-                'AdaBoost': AdaBoostRegressor(),
-                'XGBoost': XGBRegressor()
+                'AdaBoost Regressor': AdaBoostRegressor(),
+                'XGBRegressor': XGBRegressor()
             }
 
-            model_report: dict = evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models)
+            params = {
+                "Decision Tree": {
+                    "criterion": ["squared_error", "friedman_mse", "absolute_error", "poisson"],
+                    "splitter": ["best", "random"],
+                    "max_features": ["sqrt", "log2"],
+                },
+                "Random Forest": {
+                    "criterion": ["squared_error", "friedman_mse", "absolute_error", "poisson"],
+                    "max_features": ["sqrt", "log2", None],
+                    "n_estimators": [8, 16, 32, 64, 128, 256],
+                },
+                "Linear Regression": {
+                    "fit_intercept": [True, False],
+                    "copy_X": [True, False],
+                },
+                "XGBRegressor": {
+                    "learning_rate": [0.1, 0.01, 0.05, 0.001],
+                    "n_estimators": [8, 16, 32, 64, 128, 256],
+                },
+                "AdaBoost Regressor": {
+                    "learning_rate": [0.1, 0.01, 0.5, 0.001],
+                    "loss": ["linear", "square", "exponential"],
+                    "n_estimators": [8, 16, 32, 64, 128, 256],
+                },
+                "KNN": {
+                    "n_neighbors": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    "weights": ["uniform", "distance"],
+                    "algorithm": ["auto", "ball_tree", "kd_tree", "brute"],
+                    "leaf_size": [10, 20, 30, 40, 50],
+                }
+            }
+
+            model_report: dict = evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models, params=params)
 
             logger.info(f'Model Evaluation Report: {model_report}')
 
