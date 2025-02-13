@@ -1,7 +1,7 @@
 import os
 import sys
 from src.exception import CustomException
-from src.logger import logger
+from src.logger import logging as logger
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
@@ -19,7 +19,9 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logger.info('Initiating Data Ingestion')
         try:
-            df = pd.read_csv('../../notebooks/data/student.csv')
+            base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+            data_file = os.path.join(base_dir, "notebooks", "data", "student.csv")
+            df = pd.read_csv(data_file)
             logger.info('Data Ingested Successfully as Dataframe')
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path), exist_ok=True)
             df.to_csv(self.ingestion_config.raw_data_path, index=False, header=True)
@@ -35,8 +37,4 @@ class DataIngestion:
                 self.ingestion_config.test_data_path
             )
         except Exception as e:
-            raise CustomException(e, sys.exc_info())
-
-if __name__ == '__main__':
-    data_ingestion = DataIngestion()
-    data_ingestion.initiate_data_ingestion()
+            raise CustomException(e, sys)
