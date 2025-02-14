@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "POST",
         body: formData,
       });
-
+      
       if (response.ok) {
         const data = await response.json();
         predictedScore.textContent = data.prediction.toFixed(2);
