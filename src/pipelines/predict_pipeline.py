@@ -9,11 +9,21 @@ class PredictionPipeline:
         pass
 
     def predict(self, features):
-        model_path = 'artifacts/model.pkl'
-        preprocessor_path = 'artifacts/preprocessor.pkl'
+        try:
+            logger.info('Prediction pipeline started...')
+            model_path = 'artifacts/model.pkl'
+            preprocessor_path = 'artifacts/preprocessor.pkl'
 
-        model = load_object(file_path=model_path)
-        preprocessor = load_object(file_path=preprocessor_path)
+            model = load_object(file_path=model_path)
+            preprocessor = load_object(file_path=preprocessor_path)
+
+            scaled_data = preprocessor.transform(features)
+            prediction = model.predict(scaled_data)
+
+            logger.info('Prediction pipeline completed...')
+            return prediction
+        except Exception as e:
+            raise CustomException(e, sys)
 
 class CustomData:
     def __init__(self, gender: str, race_ethnicity: str, parental_level_of_education: str, lunch: str, test_preparation_course: str, reading_score: int, writing_score: int):
