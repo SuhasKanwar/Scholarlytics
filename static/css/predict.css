@@ -64,7 +64,13 @@ h1 {
 
 form {
   display: grid;
+  gap: 1rem;
+}
+
+.form-container {
+  display: grid;
   gap: 1.5rem;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
 }
 
 .form-group {
@@ -86,6 +92,8 @@ input[type="number"] {
 }
 
 button[type="submit"] {
+  width: fit-content;
+  margin: 0 auto;
   background-color: #3498db;
   color: #fff;
   padding: 0.8rem;
