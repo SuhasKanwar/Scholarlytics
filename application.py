@@ -4,7 +4,8 @@ from src.logger import logging as logger
 from src.exception import CustomException
 from src.pipelines.predict_pipeline import CustomData, PredictionPipeline
 
-app = Flask(__name__)
+application = Flask(__name__)
+app = application
 
 @app.route('/')
 def index():
