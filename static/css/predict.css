@@ -112,8 +112,7 @@ button[type="submit"]:hover {
   margin-bottom: 1rem;
 }
 
-#predicted-score,
-#confidence-score {
+#predicted-score {
   font-weight: 700;
   color: #3498db;
 }

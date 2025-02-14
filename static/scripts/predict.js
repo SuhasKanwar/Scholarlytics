@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const result = document.getElementById("result");
   const loading = document.getElementById("loading");
   const predictedScore = document.getElementById("predicted-score");
-  const confidenceScore = document.getElementById("confidence-score");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -20,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         const data = await response.json();
         predictedScore.textContent = data.prediction.toFixed(2);
-        confidenceScore.textContent = (data.confidence * 100).toFixed(2);
         result.classList.remove("hidden");
       } else {
         throw new Error("Prediction failed");

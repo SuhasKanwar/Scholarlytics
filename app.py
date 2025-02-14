@@ -1,7 +1,4 @@
 from flask import Flask, request, render_template
-import numpy as np
-import pandas as pd
-from sklearn.preprocessing import StandardScaler
 from src.logger import logging as logger
 from src.pipelines.predict_pipeline import CustomData, PredictionPipeline
 
@@ -39,4 +36,4 @@ def predict():
         return 'Invalid Request Method'
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=5000)
