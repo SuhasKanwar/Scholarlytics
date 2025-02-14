@@ -2,6 +2,8 @@ from flask import Flask, request, render_template
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+from src.logger import logging as logger
+from src.pipelines.predict_pipeline import CustomData, PredictionPipeline
 
 application = Flask(__name__)
 app = application
@@ -15,9 +17,26 @@ def predict():
     if request.method == 'GET':
         return render_template('predict.html')
     elif request.method == 'POST':
-        pass
+        logger.info('Prediction started...')
+        data = CustomData(
+            gender=request.form.get('gender'),
+            race_ethnicity=request.form.get('race_ethnicity'),
+            parental_level_of_education=request.form.get('parental_level_of_education'),
+            lunch=request.form.get('lunch'),
+            test_preparation_course=request.form.get('test_preparation_course'),
+            reading_score=int(request.form.get('reading_score')),
+            writing_score=int(request.form.get('writing_score'))
+        )
+        df = data.get_data_as_dataframe()
+        logger.info(df)
+        pipeline = PredictionPipeline()
+        prediction = pipeline.predict(df)
+        logger.info(f'Prediction: {prediction}')
+
+        return render_template('predict.html', prediction=prediction[0])
+
     else:
         return 'Invalid Request Method'
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
